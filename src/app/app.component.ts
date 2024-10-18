@@ -1,8 +1,9 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { RouterOutlet } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 
-import { AccountService } from './services/account.service';
 import { IAccount } from './models/Account';
 
 var ACCOUNTS: IAccount[]
@@ -11,30 +12,38 @@ var ACCOUNTS: IAccount[]
   selector: 'app-root',
   standalone: true,
   imports: [
+    FormsModule,
+    MatButtonModule,
     RouterOutlet,
     HttpClientModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent {
   title = 'FinanceManagerFrontend';
   accounts = ACCOUNTS
 
-  // constructor(private httpClient: HttpClient) {}
+  output: string = ""
+
   constructor(private httpClient: HttpClient) {}
 
-  ngAfterViewInit(): void {
-    // this.getAccounts()
+  public parseJson(data: any) {
+    var jsonString: string = JSON.stringify(data)
+    this.output = JSON.stringify(JSON.parse(jsonString),null,2)
+
+    const outputElement: HTMLElement = document.getElementById('output') as HTMLElement 
   }
 
   getAccounts(): void {
-    this.httpClient.get<IAccount[]>('https://localhost:7128/api/Accounts').subscribe((data) => {
-      this.accounts = data
-      const jsonString: string = JSON.stringify(this.accounts)
-      console.log(jsonString)
-    })
-
+    try {
+      this.httpClient.get<IAccount[]>('https://localhost:7128/api/Accounts').subscribe((data) => {
+        this.accounts = data
+        this.parseJson(this.accounts)
+      })
+    } catch (error) {
+      console.log(error)
+    }
     
   }
 }

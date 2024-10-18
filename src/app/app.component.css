@@ -1,14 +1,26 @@
 .container {
     display: grid;
-    grid-template-columns: 10% 90%;
-    height: 100%;
+    grid-template-columns: 15% 80%;
+    height: 80%;
     width: 100%;
 }
 
-.button-container {
-    
+.button-container button {
+    background-color: rgb(125, 110, 255);
+    color: rgba(255, 255, 255, 0.87);
+}
+
+.button-container button:hover {
+    background-color: rgb(100, 85, 250);
+    color: rgb(255, 255, 255);
 }
 
 .output-container {
+    padding-top: 35px;
+}
 
+ul {
+    list-style-type: none;
+    padding-top: 20px;
+    padding-left: 20px;
 }

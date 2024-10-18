@@ -2,11 +2,11 @@
     <div class="button-container">
         <ul>
             <li>
-                <button (click)="getAccounts()">Accounts</button>
+                <button mat-raised-button (click)="getAccounts()">Accounts</button>
             </li>
         </ul>
     </div>
     <div class="output-container">
-        <textarea id="output" rows="1000" cols="200"></textarea>
+        <textarea id="output" rows="50" cols="100" [value]="this.output"></textarea>
     </div>
 </div>
