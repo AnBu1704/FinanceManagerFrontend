@@ -8,17 +8,13 @@
                 <button mat-raised-button (click)="this.getAccounts()">Accounts</button>
             </li>
             <li>
-                <button mat-raised-button (click)="this.addAccount(this.newAccount)">New Account</button>
+                <button mat-raised-button (click)="this.addAccount()">New Account</button>
             </li>
             <li>
-                <mat-form-field class="example-full-width">
-                    <mat-label>ID</mat-label>
-                    <input matInput placeholder="ID" id="idInput" value="0">
-                </mat-form-field>
-                <button mat-raised-button (click)="this.editAccount(10, editedAccount)">Edit Account</button>
+                <button mat-raised-button (click)="this.editAccount(12, this.editedAccount)">Edit Account</button>
             </li>
             <li>
-                <button mat-raised-button (click)="this.deleteAccount(34)">Delete Account</button>
+                <button mat-raised-button (click)="this.deleteAccount(36)">Delete Account</button>
             </li>
         </ul>
     </div>
