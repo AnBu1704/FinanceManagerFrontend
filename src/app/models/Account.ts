@@ -1,5 +1,6 @@
 export interface IAccount 
 {
     id: number,     
-    name: string
+    name: string,
+    color: number
 }

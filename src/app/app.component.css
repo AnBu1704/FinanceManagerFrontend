@@ -12,6 +12,7 @@
 
 .button-container button:hover {
     background-color: rgb(100, 85, 250);
+    color: #3333330c;
     color: rgb(255, 255, 255);
 }
 
@@ -23,4 +24,15 @@ ul {
     list-style-type: none;
     padding-top: 20px;
     padding-left: 20px;
+}
+
+li {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.example-full-width {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
 }
