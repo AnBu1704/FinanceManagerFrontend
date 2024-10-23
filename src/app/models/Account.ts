@@ -2,5 +2,6 @@ export interface IAccount
 {
     id: number,     
     name: string,
-    color: number
+    description: string,
+    eMail: string
 }

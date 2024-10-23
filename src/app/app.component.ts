@@ -31,7 +31,7 @@ export class AppComponent {
   title = 'Finance Manager'
   account = ACCOUNT
   accounts = ACCOUNTS
-  editedAccount: IAccount = { id: 12, name: "Edit Account", color: 654321} // AB: test data
+  editedAccount: IAccount = { id: 5, name: "Edit Account", description: "Edit Account", eMail: "edited@email.com" } // AB: test data
 
   output: string = ""
 
@@ -44,6 +44,15 @@ export class AppComponent {
         this.parseJson(data);  // Format and display the data
       }
     });
+  }
+
+  getAccount(id: number): void {
+      this.accountService.getAccount(this.httpClient, id).subscribe((data) => {
+        if (data != null)  {
+          this.account = data; // Store received accounts
+          this.parseJson(data);  // Format and display the data
+        }
+      });
   }
 
   getAccountInfo(id: number): void {

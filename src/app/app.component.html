@@ -2,7 +2,10 @@
     <div class="button-container">
         <ul>
             <li>
-                <button mat-raised-button (click)="this.getAccountInfo(4)">Account 4</button>                
+                <button mat-raised-button (click)="this.getAccount(1)">Account 1</button>                
+            </li>
+            <li>
+                <button mat-raised-button (click)="this.getAccountInfo(1)">AccountInfo 1</button>                
             </li>
             <li>
                 <button mat-raised-button (click)="this.getAccounts()">Accounts</button>
@@ -11,10 +14,10 @@
                 <button mat-raised-button (click)="this.addAccount()">New Account</button>
             </li>
             <li>
-                <button mat-raised-button (click)="this.editAccount(12, this.editedAccount)">Edit Account</button>
+                <button mat-raised-button (click)="this.editAccount(5, this.editedAccount)">Edit Account</button>
             </li>
             <li>
-                <button mat-raised-button (click)="this.deleteAccount(36)">Delete Account</button>
+                <button mat-raised-button (click)="this.deleteAccount(5)">Delete Account</button>
             </li>
         </ul>
     </div>

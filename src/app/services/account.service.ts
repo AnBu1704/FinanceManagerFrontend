@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
 import { IAccount } from '../models/Account';
+import { IAccountInfoAccount } from '../models/AccountInfo';
 // import { handleHttpError } from '../TS/ErrorHandling';
 
 var ACCOUNT: Observable<IAccount>
@@ -16,7 +17,7 @@ var NEWACCOUNT: IAccount
 export class AccountService {
   account = ACCOUNT
   accounts = ACCOUNTS
-  newAccount: IAccount = { id: 0, name: "New Account", color: 0 }
+  newAccount: IAccount = { id: 0, name: "New Account", description: "New Account", eMail: "new@email.com" }
   
   constructor() { }
 
@@ -25,8 +26,13 @@ export class AccountService {
     // .pipe((error) => { console.error(this.handleHttpError(error)) }); // Verwende die ausgelagerte handleError
   }
 
-  public getAccountInfo(httpClient: HttpClient, id: number): Observable<IAccount> {
+  public getAccount(httpClient: HttpClient, id: number): Observable<IAccount> {
     return httpClient.get<IAccount>('https://localhost:7128/api/Accounts/' + id)
+    // .pipe((error) => { console.error(this.handleHttpError(error)) }); // Verwende die ausgelagerte handleError
+  }
+
+  public getAccountInfo(httpClient: HttpClient, id: number): Observable<IAccountInfoAccount> {
+    return httpClient.get<IAccountInfoAccount>('https://localhost:7128/api/Accounts/Info/' + id)
     // .pipe((error) => { console.error(this.handleHttpError(error)) }); // Verwende die ausgelagerte handleError
   }
 
@@ -36,7 +42,7 @@ export class AccountService {
   }
 
   public editAccount(httpClient: HttpClient, id: number, editedAccount: IAccount): Observable<IAccount> {
-    return httpClient.put<IAccount>('https://localhost:7128/api/Accounts', editedAccount)
+    return httpClient.put<IAccount>('https://localhost:7128/api/Accounts/' + id, editedAccount)
     // .pipe((error) => { console.error(this.handleHttpError(error)) }); // Verwende die ausgelagerte handleError
   }
 
