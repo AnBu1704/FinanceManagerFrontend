@@ -1,0 +1,41 @@
+<div class="outher-container">
+    <div class="inner-container">
+        <div class="content-container">
+            <img src="../../assets/PersonalFinanceManagerIcon.png" class="icon">
+            <span class="title">Finance Manager</span>
+            <hr>
+            <div class="login-register-container">
+                <span class="text">Login</span>
+                <span class="text-link" style="text-align: right;" (click)="this.registerClick()">Register?</span>
+            </div>
+            <mat-form-field appearance="outline" class="input-email">
+                <mat-label>E-Mail</mat-label>
+                <input
+                    matInput
+                    placeholder="example@mail.com"
+                    [formControl]="email"
+                    (blur)="updateErrorMessage()"
+                    required
+                    />
+                    @if (email.invalid) {
+                    <mat-error>{{errorMessage()}}</mat-error>
+                    }
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Enter your password</mat-label>
+                <input matInput [type]="hide() ? 'password' : 'text'" />
+                <button
+                  mat-icon-button
+                  matSuffix
+                  (click)="clickEvent($event)"
+                  [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hide()"
+                >
+                  <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+            <span class="text-link" style="text-align: right;" (click)="this.registerClick()">Forgot Password?</span>
+            <button mat-fab extended class="login-button" (click)="this.loginClick()">Login</button>
+        </div>        
+    </div>    
+</div>

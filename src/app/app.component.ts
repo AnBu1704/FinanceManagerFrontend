@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input'
 
 import { IAccount } from './models/Account';
 import { AccountService } from './services/account.service';
+import { LoginComponent } from './components/login/login.component';
 
 var ACCOUNT: IAccount
 var ACCOUNTS: IAccount[]
@@ -22,7 +23,8 @@ var NEWACCOUNT: IAccount
     MatInputModule,
     MatFormFieldModule,
     RouterOutlet,
-    HttpClientModule
+    HttpClientModule,
+    LoginComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
