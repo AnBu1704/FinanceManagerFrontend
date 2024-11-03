@@ -46,31 +46,35 @@
     border-radius: 20px;
 }
 
-.container {
+.content-container {
     display: grid;
     grid-template-rows: auto auto auto;      
     justify-content: center;
 }
 
-.login-container {
-    display: grid;
-    grid-template-columns: auto auto;
-}
-
-.input-email {
-    margin-top: 1em;
-}
-
-
-
-.login-button {
-    background-color: rgb(100, 100, 255);
-    border-radius: 5px;
+.icon {
+    height: 7em;
+    width: 7em;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
     margin-bottom: 1em;
-    margin-top: 1em;
 }
 
-.login-button:hover {
-    background-color: rgb(50, 50, 255);
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+.title {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+    font-size: 2em;
+    color: rgb(40, 40, 40);
+    text-align: center;
+    user-select: none; 
+}
+
+hr {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    width: 90%;
+    margin-top: 2em;
+    margin-bottom: 2em;
 }

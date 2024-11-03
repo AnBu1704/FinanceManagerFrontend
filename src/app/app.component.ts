@@ -1,6 +1,6 @@
-import { Component, AfterViewInit } from '@angular/core'
+import { Component } from '@angular/core'
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http'
-import { RouterOutlet } from '@angular/router'
+import { RouterModule, Routes, RouterOutlet, Router } from '@angular/router'
 import { FormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input'
 
 import { IAccount } from './models/Account';
 import { AccountService } from './services/account.service';
-import { LoginComponent } from './components/login/login.component';
+import { LoginRegisterComponent } from './components/login-register/login-register.component';
 
 var ACCOUNT: IAccount
 var ACCOUNTS: IAccount[]
@@ -24,7 +24,7 @@ var NEWACCOUNT: IAccount
     MatFormFieldModule,
     RouterOutlet,
     HttpClientModule,
-    LoginComponent
+    LoginRegisterComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

@@ -1,21 +1,23 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http'
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterModule, Routes, RouterOutlet, Router, ActivatedRoute } from '@angular/router'
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { merge } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { RouterModule, Routes, RouterOutlet, Router, ActivatedRoute } from '@angular/router'
 
 import { AccountService } from '../../services/account.service';
-import { LoginRegisterComponent } from '../login-register/login-register.component';
+import { LoginComponent } from '../login/login.component';
 
 @Component({
-  selector: 'login',
+  selector: 'login-register',
   standalone: true,
   imports: [
+    CommonModule,
     FormsModule,
     MatButtonModule,
     MatInputModule,
@@ -23,22 +25,25 @@ import { LoginRegisterComponent } from '../login-register/login-register.compone
     MatFormFieldModule,
     ReactiveFormsModule,
     RouterOutlet,
-    LoginRegisterComponent
+    LoginComponent
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  templateUrl: './login-register.component.html',
+  styleUrl: './login-register.component.css'
 })
-export class LoginComponent {
+export class LoginRegisterComponent implements AfterViewInit {
   readonly email = new FormControl('', [Validators.required, Validators.email]);
 
   errorMessage = signal('');
   hide = signal(true);
 
-  constructor(private httpClient: HttpClient, private accountService: AccountService, private loginRegisterComponent: LoginRegisterComponent, private router: Router, private route: ActivatedRoute) {
+  constructor(private httpClient: HttpClient, private accountService: AccountService, private router: Router, private route: ActivatedRoute) {
     merge(this.email.statusChanges, this.email.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorMessage());
+  }
+
+  ngAfterViewInit(): void {
+    this.router.navigate([{ outlets: { bottom: ['login'] }}], { relativeTo: this.route });
   }
 
   updateErrorMessage() {
@@ -56,15 +61,21 @@ export class LoginComponent {
     event.stopPropagation();
   }
 
-  registerClick() {
-    this.loginRegisterComponent.register()
+  public register() {
+    this.router.navigate([{ outlets: { bottom: ['register'] }}], { relativeTo: this.route });
   }
 
-  forgotPasswordClick() {
-    this.loginRegisterComponent.forgotPassword()
+  public forgotPassword() {
+    this.router.navigate([{ outlets: { bottom: ['forgot-password'] }}], { relativeTo: this.route });
   }
-
-  loginClick() {
-
+  
+  loginRegisterSelected(): boolean {
+    console.log(this.router.url);
+    
+    if (this.router.url == "/login-register") {
+      return true
+    } else {
+      return false
+    }
   }
 }
