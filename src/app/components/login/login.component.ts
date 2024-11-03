@@ -57,11 +57,11 @@ export class LoginComponent {
   }
 
   registerClick() {
-    this.loginRegisterComponent.register()
+    this.loginRegisterComponent.showRegisterComponent()
   }
 
   forgotPasswordClick() {
-    this.loginRegisterComponent.forgotPassword()
+    this.loginRegisterComponent.showForgotPasswordComponent()
   }
 
   loginClick() {

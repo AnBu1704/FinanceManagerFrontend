@@ -1,1 +1,60 @@
-<p>register works!</p>
+<div class="container">
+    <div class="register-container">
+        <span class="text">Register</span>
+        <span class="text-link" style="text-align: right;" (click)="this.loginClick()">Login?</span>
+    </div>
+    <mat-form-field appearance="outline" class="input-email">
+        <mat-label>E-Mail</mat-label>
+        <input
+            matInput
+            placeholder="example@mail.com"
+            [formControl]="email"
+            (blur)="this.updateErrorMessageEmail()"
+            required
+            />
+            @if (email.invalid) {
+                <mat-error>{{errorMessageEmail()}}</mat-error>
+            }
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Your new password</mat-label>
+        <input  [formControl]="pw"  
+                matInput 
+                [type]="hide() ? 'password' : 'text'" 
+                required 
+                (focus)="this.updateErrorMessagePW()" />
+                @if (pw.invalid) {
+                    <mat-error>{{errorMessagePW()}}</mat-error>
+                }
+        <button
+        mat-icon-button
+        matSuffix
+        (click)="this.clickEvent($event)"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide()"
+        >
+        <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Repeat password</mat-label>
+        <input  [formControl]="rpw"  
+                matInput 
+                [type]="hide() ? 'password' : 'text'" 
+                required 
+                (focus)="this.updateErrorMessagePW()" />
+                @if (pw.invalid) {
+                    <mat-error>{{errorMessagePW()}}</mat-error>
+                }
+        <button
+        mat-icon-button
+        matSuffix
+        (click)="this.clickEvent($event)"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide()"
+        >
+        <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+    </mat-form-field>
+    <button mat-fab extended class="register-button" (click)="this.registerClick()" [disabled]="this.registerButtonDisabled">Register</button>
+</div>

@@ -23,29 +23,6 @@
     cursor: pointer;
 }
 
-.outher-container {
-    display: flex;
-    justify-content: center; 
-    align-items: center;    
-    height: 100vh;      
-    background-color: rgba(0, 0, 254, 0.1);
-}
-
-.inner-container {
-    background-color: rgb(254, 254, 254);
-    height: fit-content;
-    width: fit-content;
-    padding-left: 3em;
-    padding-top: 3em;
-    padding-right: 3em;
-    padding-bottom: 2em;
-    border: solid;
-    border-width: 1px;
-    border-color: rgba(0, 0, 0, 0.3);
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
-    border-radius: 20px;
-}
-
 .container {
     display: grid;
     grid-template-rows: auto auto auto;      
@@ -60,8 +37,6 @@
 .input-email {
     margin-top: 1em;
 }
-
-
 
 .login-button {
     background-color: rgb(100, 100, 255);
