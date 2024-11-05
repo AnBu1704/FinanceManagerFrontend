@@ -76,19 +76,11 @@ export class RegisterComponent {
       this.rpw.setErrors(null);
     }
 
-    this.isRegisterButtonDisabled()    
-  }
-
-  isRegisterButtonDisabled(): boolean {
     if (this.errorMessageEmail() == '' && this.errorMessagePW() == '') {
       this.registerButtonDisabled = false
-      // return false
     } else {
       this.registerButtonDisabled = true
-      // return true
-    }
-
-    return this.registerButtonDisabled
+    }   
   }
 
   clickEvent(event: MouseEvent) {

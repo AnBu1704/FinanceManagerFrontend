@@ -36,6 +36,7 @@
 
 .input-email {
     margin-top: 1em;
+    width: 20em;
 }
 
 .login-button {
@@ -48,4 +49,10 @@
 .login-button:hover {
     background-color: rgb(50, 50, 255);
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+.login-button:disabled {
+    background-color: rgb(180, 180, 180); 
+    color: rgb(255, 255, 255); 
+    box-shadow: none;
 }

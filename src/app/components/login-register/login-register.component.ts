@@ -47,7 +47,8 @@ export class LoginRegisterComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     // this.router.navigate([{ outlets: { bottom: ['register'] }}], { relativeTo: this.route });
-    this.router.navigate([{ outlets: { bottom: ['login'] }}], { relativeTo: this.route });
+    // this.router.navigate([{ outlets: { bottom: ['login'] }}], { relativeTo: this.route });
+    this.router.navigate([{ outlets: { bottom: ['forgot-password'] }}], { relativeTo: this.route });
   }
 
   updateErrorMessage() {

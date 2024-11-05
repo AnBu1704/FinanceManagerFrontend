@@ -70,13 +70,10 @@ export class LoginComponent {
       this.pw.setErrors(null);
     }
     
-    // this.isLoginButtonDisabled()
     if (this.errorMessageEmail() == '' && this.errorMessagePW() == '') {
       this.loginButtonDisabled = false
-      // return false
     } else {
       this.loginButtonDisabled = true
-      // return true
     }
   }
 
