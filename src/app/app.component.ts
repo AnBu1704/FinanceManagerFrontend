@@ -37,7 +37,8 @@ export class AppComponent {
 
   output: string = ""
 
-  constructor(private httpClient: HttpClient, private accountService: AccountService) {}
+  constructor(private httpClient: HttpClient, 
+              private accountService: AccountService) {}
 
   getAccounts(): void {
     this.accountService.getAccounts(this.httpClient).subscribe((data) => {

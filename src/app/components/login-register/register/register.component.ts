@@ -9,8 +9,8 @@ import { merge } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterModule, Routes, RouterOutlet, Router, ActivatedRoute } from '@angular/router'
 
-import { AccountService } from '../../services/account.service';
-import { LoginRegisterComponent } from '../login-register/login-register.component';
+import { AccountService } from '../../../services/account.service';
+import { LoginRegisterComponent } from '../../login-register/login-register.component';
 
 @Component({
   selector: 'app-register',
@@ -33,15 +33,15 @@ export class RegisterComponent {
   readonly pw = new FormControl('', [Validators.required])
   readonly rpw = new FormControl('', [Validators.required])
 
-  errorMessageEmail = signal('');
-  errorMessagePW = signal('');
-  hide = signal(true);
-
   formGroup: FormGroup = new FormGroup({
     emailInput: this.email,
     pwInput: this.pw,
     rpwInput: this.rpw
   })
+
+  errorMessageEmail = signal('');
+  errorMessagePW = signal('');
+  hide = signal(true);
 
   registerButtonDisabled: boolean = true
 
@@ -50,16 +50,12 @@ export class RegisterComponent {
               private loginRegisterComponent: LoginRegisterComponent, 
               private router: Router, 
               private route: ActivatedRoute) {
-    merge(this.email.statusChanges, this.email.valueChanges)
+    merge(this.email.statusChanges, this.email.valueChanges, this.pw.valueChanges, this.rpw.valueChanges)
       .pipe(takeUntilDestroyed())
-      .subscribe(() => this.updateErrorMessageEmail());
-
-    merge(this.pw.valueChanges, this.rpw.valueChanges)
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => this.updateErrorMessagePW());
+      .subscribe(() => this.updateErrorMessage());
   }
 
-  updateErrorMessageEmail() {
+  updateErrorMessage() {
     if (this.email.hasError('required')) {
       this.errorMessageEmail.set('You must enter a value');
     } else if (this.email.hasError('email')) {
@@ -68,10 +64,6 @@ export class RegisterComponent {
       this.errorMessageEmail.set('');
     }
 
-    this.isRegisterButtonDisabled()
-  }
-
-  updateErrorMessagePW() {
     if (this.pw.hasError('required') || this.rpw.hasError('required')) {
       this.errorMessagePW.set('You must enter a value');
     } else if (this.formGroup.controls['pwInput'].value != this.formGroup.controls['rpwInput'].value) {
@@ -84,16 +76,7 @@ export class RegisterComponent {
       this.rpw.setErrors(null);
     }
 
-    this.isRegisterButtonDisabled()
-  }
-
-  clickEvent(event: MouseEvent) {
-    this.hide.set(!this.hide());
-    event.stopPropagation();
-  }
-
-  loginClick() {
-    this.loginRegisterComponent.showLoginComponent()
+    this.isRegisterButtonDisabled()    
   }
 
   isRegisterButtonDisabled(): boolean {
@@ -106,6 +89,15 @@ export class RegisterComponent {
     }
 
     return this.registerButtonDisabled
+  }
+
+  clickEvent(event: MouseEvent) {
+    this.hide.set(!this.hide());
+    event.stopPropagation();
+  }
+
+  loginClick() {
+    this.loginRegisterComponent.showLoginComponent()
   }
 
   registerClick() {

@@ -9,7 +9,7 @@
             matInput
             placeholder="example@mail.com"
             [formControl]="email"
-            (blur)="this.updateErrorMessageEmail()"
+            (blur)="this.updateErrorMessage()"
             required
             />
             @if (email.invalid) {
@@ -22,7 +22,7 @@
                 matInput 
                 [type]="hide() ? 'password' : 'text'" 
                 required 
-                (focus)="this.updateErrorMessagePW()" />
+                (focus)="this.updateErrorMessage()" />
                 @if (pw.invalid) {
                     <mat-error>{{errorMessagePW()}}</mat-error>
                 }
@@ -42,7 +42,7 @@
                 matInput 
                 [type]="hide() ? 'password' : 'text'" 
                 required 
-                (focus)="this.updateErrorMessagePW()" />
+                (focus)="this.updateErrorMessage()" />
                 @if (pw.invalid) {
                     <mat-error>{{errorMessagePW()}}</mat-error>
                 }
@@ -56,5 +56,9 @@
         <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
     </mat-form-field>
-    <button mat-fab extended class="register-button" (click)="this.registerClick()" [disabled]="this.registerButtonDisabled">Register</button>
+    <button mat-fab 
+            extended 
+            class="register-button" 
+            (click)="this.registerClick()" 
+            [disabled]="this.registerButtonDisabled">Register</button>
 </div>

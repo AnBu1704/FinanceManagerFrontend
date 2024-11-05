@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http'
-import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -9,8 +9,8 @@ import { merge } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterModule, Routes, RouterOutlet, Router, ActivatedRoute } from '@angular/router'
 
-import { AccountService } from '../../services/account.service';
-import { LoginRegisterComponent } from '../login-register/login-register.component';
+import { AccountService } from '../../../services/account.service';
+import { LoginRegisterComponent } from '../../login-register/login-register.component';
 
 @Component({
   selector: 'login',
@@ -31,23 +31,52 @@ import { LoginRegisterComponent } from '../login-register/login-register.compone
 })
 export class LoginComponent {
   readonly email = new FormControl('', [Validators.required, Validators.email]);
+  readonly pw = new FormControl('', [Validators.required]);
 
-  errorMessage = signal('');
+  formGroup: FormGroup = new FormGroup({
+    emailInput: this.email,
+    pwInput: this.pw,
+  })
+
+  errorMessageEmail = signal('');
+  errorMessagePW = signal('');
   hide = signal(true);
 
-  constructor(private httpClient: HttpClient, private accountService: AccountService, private loginRegisterComponent: LoginRegisterComponent, private router: Router, private route: ActivatedRoute) {
-    merge(this.email.statusChanges, this.email.valueChanges)
+  loginButtonDisabled: boolean = true
+
+  constructor(private httpClient: HttpClient, 
+              private accountService: AccountService, 
+              private loginRegisterComponent: LoginRegisterComponent, 
+              private router: Router, 
+              private route: ActivatedRoute) {
+    merge(this.email.statusChanges, this.email.valueChanges, this.pw.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorMessage());
   }
 
   updateErrorMessage() {
     if (this.email.hasError('required')) {
-      this.errorMessage.set('You must enter a value');
+      this.errorMessageEmail.set('You must enter a value');
     } else if (this.email.hasError('email')) {
-      this.errorMessage.set('Not a valid email');
+      this.errorMessageEmail.set('Not a valid email');
     } else {
-      this.errorMessage.set('');
+      this.errorMessageEmail.set('');
+    }
+
+    if (this.pw.hasError('required')) {
+      this.errorMessagePW.set('You must enter a value');    
+    } else {
+      this.errorMessagePW.set('');
+      this.pw.setErrors(null);
+    }
+    
+    // this.isLoginButtonDisabled()
+    if (this.errorMessageEmail() == '' && this.errorMessagePW() == '') {
+      this.loginButtonDisabled = false
+      // return false
+    } else {
+      this.loginButtonDisabled = true
+      // return true
     }
   }
 

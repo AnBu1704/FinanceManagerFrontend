@@ -11,7 +11,7 @@ import { merge } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { AccountService } from '../../services/account.service';
-import { LoginComponent } from '../login/login.component';
+import { LoginComponent } from './login/login.component';
 
 @Component({
   selector: 'login-register',
@@ -36,15 +36,18 @@ export class LoginRegisterComponent implements AfterViewInit {
   errorMessage = signal('');
   hide = signal(true);
 
-  constructor(private httpClient: HttpClient, private accountService: AccountService, private router: Router, private route: ActivatedRoute) {
+  constructor(private httpClient: HttpClient, 
+              private accountService: AccountService, 
+              private router: Router, 
+              private route: ActivatedRoute) {
     merge(this.email.statusChanges, this.email.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorMessage());
   }
 
   ngAfterViewInit(): void {
-    this.router.navigate([{ outlets: { bottom: ['register'] }}], { relativeTo: this.route });
-    // this.router.navigate([{ outlets: { bottom: ['login'] }}], { relativeTo: this.route });
+    // this.router.navigate([{ outlets: { bottom: ['register'] }}], { relativeTo: this.route });
+    this.router.navigate([{ outlets: { bottom: ['login'] }}], { relativeTo: this.route });
   }
 
   updateErrorMessage() {
