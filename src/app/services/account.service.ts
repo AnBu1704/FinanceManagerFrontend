@@ -2,6 +2,7 @@ import { HttpClientModule, HttpClient, HttpHeaders, HttpErrorResponse } from '@a
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
+import * as CryptoJS from 'crypto-js';
 
 import { IAccount } from '../models/Account';
 import { IAccountInfoAccount } from '../models/AccountInfo';
@@ -10,6 +11,15 @@ import { IAccountInfoAccount } from '../models/AccountInfo';
 var ACCOUNT: Observable<IAccount>
 var ACCOUNTS: Observable<IAccount[]>
 var NEWACCOUNT: IAccount
+
+export interface ILoginRequestData {
+  mail: string
+  password: string
+}
+
+export interface ITest {
+  test: string
+}
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +60,22 @@ export class AccountService {
     return httpClient.delete<IAccount>('https://localhost:7128/api/Accounts/' + id)
       // .pipe(catchError(this.handleError())); // Verwende die ausgelagerte handleError
   }
+
+  public login(httpClient: HttpClient, email: string, pw: string): Observable<IAccount> {
+    // const cryptedPW = CryptoJS.SHA256(pw).toString(CryptoJS.enc.Hex)      
+    const loginRequestData: ILoginRequestData = {
+      mail: email,
+      password: pw
+    }
+
+    console.log(JSON.stringify(loginRequestData));
+    
+    return httpClient.post<IAccount>('https://localhost:7128/api/Accounts/Login', loginRequestData);
+      // .pipe(catchError(this.handleError())); // Verwende die ausgelagerte handleError
+  }
+
+
+
 
 
   // private handleError(error: any) {

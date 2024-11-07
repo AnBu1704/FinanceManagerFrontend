@@ -5,12 +5,13 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
-import { merge } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterModule, Routes, RouterOutlet, Router, ActivatedRoute } from '@angular/router'
 
 import { AccountService } from '../../../services/account.service';
 import { LoginRegisterComponent } from '../../login-register/login-register.component';
+
+import { merge } from 'rxjs';
 
 @Component({
   selector: 'login',
@@ -23,7 +24,7 @@ import { LoginRegisterComponent } from '../../login-register/login-register.comp
     MatFormFieldModule,
     ReactiveFormsModule,
     RouterOutlet,
-    LoginRegisterComponent
+    LoginRegisterComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './login.component.html',
@@ -91,6 +92,11 @@ export class LoginComponent {
   }
 
   loginClick() {
-
+    this.accountService.login(this.httpClient, this.email.value == null ? "" : this.email.value, this.pw.value == null ? "" : this.pw.value).subscribe((data) => {
+      if (data != null)  {
+        console.log(data);
+        
+      }
+    });
   }
 }
