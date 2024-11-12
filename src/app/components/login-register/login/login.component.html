@@ -1,20 +1,20 @@
 <div class="container">
     <div class="login-container">
         <span class="text">Login</span>
-        <span class="text-link" style="text-align: right;" (click)="this.registerClick()">Register?</span>
+        <span class="text-link" style="text-align: right;" (click)="registerClick()">Register?</span>
     </div>
     <mat-form-field appearance="outline" class="input-email">
         <mat-label>E-Mail</mat-label>
         <input
-            matInput
-            placeholder="example@mail.com"
-            [formControl]="email"
-            (blur)="updateErrorMessage()"
-            required
-            />
-            @if (email.invalid) {
-                <mat-error>{{errorMessageEmail()}}</mat-error>
-            }
+                matInput
+                placeholder="example@mail.com"
+                [formControl]="email"
+                (blur)="updateErrorMessage()"
+                required
+                />
+                @if (email.invalid) {
+                    <mat-error>{{errorMessageEmail()}}</mat-error>
+                }
     </mat-form-field>
     <mat-form-field appearance="outline">
         <mat-label>Enter your password</mat-label>
@@ -28,19 +28,20 @@
                     <mat-error>{{errorMessagePW()}}</mat-error>
                 }
         <button
-        mat-icon-button
-        matSuffix
-        (click)="clickEvent($event)"
-        [attr.aria-label]="'Hide password'"
-        [attr.aria-pressed]="hide()"
-        >
-        <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+                mat-icon-button
+                matSuffix
+                (click)="clickEvent($event)"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide()"
+                >
+                <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
     </mat-form-field>
-    <span class="text-link" style="text-align: right;" (click)="this.forgotPasswordClick()">Forgot Password?</span>
+    <span class="text-link" style="text-align: right;" (click)="forgotPasswordClick()">Forgot Password?</span>
     <button mat-fab 
-    extended 
-    class="login-button" 
-    (click)="this.loginClick()"
-    [disabled]="this.loginButtonDisabled">Login</button>
+            extended 
+            class="login-button" 
+            (click)="loginClick()"
+            [disabled]="loginButtonDisabled">Login</button>
+    <span class="text-error" *ngIf="errorMessageLogin">{{errorMessageLogin}}</span>
 </div>

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http'
 import { FormBuilder, FormGroup, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button'
@@ -25,6 +25,7 @@ import { LoginRegisterComponent } from '../../login-register/login-register.comp
     RouterOutlet,
     LoginRegisterComponent
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './forgot-password.component.html',
   styleUrl: './forgot-password.component.css'
 })
@@ -34,16 +35,25 @@ export class ForgotPasswordComponent {
   errorMessageEmail = signal('');  
   hide = signal(true);
 
+  forgotPasswordMail: string = ""
+
   forgetPasswordButtonDisabled: boolean = true
+
+  errorMessageForgotPassword: string = ''
 
   constructor(private httpClient: HttpClient, 
     private accountService: AccountService, 
     private loginRegisterComponent: LoginRegisterComponent, 
     private router: Router, 
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef) {
       merge(this.email.statusChanges, this.email.valueChanges)
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => this.updateErrorMessage());
+        .pipe(takeUntilDestroyed())
+        .subscribe(() => this.updateErrorMessage())
+
+      this.route.params.subscribe(params => {
+        this.email.setValue(params['email'])
+      })
     }
 
     updateErrorMessage() {
@@ -72,6 +82,15 @@ export class ForgotPasswordComponent {
     }
 
     forgotPasswordClick() {
-      
+      this.accountService.forgotPassword(this.httpClient, this.email.value != null ? this.email.value : "").subscribe({
+        next: (response) => {
+          console.log(response);
+        }
+        // error: (error) => {
+        //   this.errorMessageForgotPassword = 'Error while sending verification mail.'
+        //     this.cdr.detectChanges(); // Änderung explizit bekannt machen
+        //     console.error(new Error(this.errorMessageForgotPassword))
+        // }
+      });
     }
 }

@@ -23,6 +23,16 @@
     cursor: pointer;
 }
 
+.text-error {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1em;
+    color: rgb(250, 50, 50);
+    user-select: none; 
+}
+
 .container {
     display: grid;
     grid-template-rows: auto auto auto;      

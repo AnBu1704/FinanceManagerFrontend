@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal, ChangeDetectorRef } from '@angular/core';
+import { NgIf } from '@angular/common'
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http'
 import { FormBuilder, FormGroup, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button'
@@ -18,6 +19,7 @@ import { merge } from 'rxjs';
   standalone: true,
   imports: [
     FormsModule,
+    NgIf,
     MatButtonModule,
     MatInputModule,
     MatIconModule,
@@ -45,11 +47,14 @@ export class LoginComponent {
 
   loginButtonDisabled: boolean = true
 
+  errorMessageLogin: string = ''
+
   constructor(private httpClient: HttpClient, 
               private accountService: AccountService, 
               private loginRegisterComponent: LoginRegisterComponent, 
               private router: Router, 
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private cdr: ChangeDetectorRef) {
     merge(this.email.statusChanges, this.email.valueChanges, this.pw.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorMessage());
@@ -88,14 +93,38 @@ export class LoginComponent {
   }
 
   forgotPasswordClick() {
+    this.accountService.forgotPasswordMail = this.email.value == null ? "" : this.email.value
+    console.log(this.accountService.forgotPasswordMail);
+    
+
     this.loginRegisterComponent.showForgotPasswordComponent()
   }
 
   loginClick() {
-    this.accountService.login(this.httpClient, this.email.value == null ? "" : this.email.value, this.pw.value == null ? "" : this.pw.value).subscribe((data) => {
-      if (data != null)  {
-        console.log(data);
-        
+    this.accountService.login(this.httpClient, 
+                              this.email.value == null ? "" : this.email.value, 
+                              this.pw.value == null ? "" : this.pw.value).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.errorMessageLogin = ''
+        this.cdr.detectChanges(); // Änderung explizit bekannt machen
+        // Weiterleitung zur nächsten Seite oder Speichern des Tokens
+      },
+      error: (error) => {
+        if (error.status === 400) {
+          this.errorMessageLogin = 'Entered incorrect login information\ntoo often'
+          this.cdr.detectChanges(); // Änderung explizit bekannt machen
+          console.error(this.errorMessageLogin)
+        } 
+        else if (error.status === 401) {
+          this.errorMessageLogin = 'Login information false'
+          this.cdr.detectChanges(); // Änderung explizit bekannt machen
+          console.error(this.errorMessageLogin)
+        } else {
+          this.errorMessageLogin = 'Login information false'
+          this.cdr.detectChanges(); // Änderung explizit bekannt machen
+          console.error(new Error(this.errorMessageLogin))
+        }
       }
     });
   }

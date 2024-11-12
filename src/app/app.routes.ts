@@ -10,7 +10,7 @@ export const routes: Routes = [
     path: 'login-register', component: LoginRegisterComponent, children: [
       { path: 'login', component: LoginComponent, outlet: 'bottom' },
       { path: 'register', component: RegisterComponent, outlet: 'bottom' },
-      { path: 'forgot-password', component: ForgotPasswordComponent, outlet: 'bottom' },
+      { path: 'forgot-password/:email', component: ForgotPasswordComponent, outlet: 'bottom' },
     ],
   },
   { 

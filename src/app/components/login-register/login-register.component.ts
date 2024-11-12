@@ -75,7 +75,7 @@ export class LoginRegisterComponent implements AfterViewInit {
   }
 
   public showForgotPasswordComponent() {
-    this.router.navigate([{ outlets: { bottom: ['forgot-password'] }}], { relativeTo: this.route })
+    this.router.navigate([{ outlets: { bottom: ['forgot-password', this.accountService.forgotPasswordMail] }}], { relativeTo: this.route })
   }
   
   loginRegisterSelected(): boolean {

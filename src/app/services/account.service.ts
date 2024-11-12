@@ -2,7 +2,6 @@ import { HttpClientModule, HttpClient, HttpHeaders, HttpErrorResponse } from '@a
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
-import * as CryptoJS from 'crypto-js';
 
 import { IAccount } from '../models/Account';
 import { IAccountInfoAccount } from '../models/AccountInfo';
@@ -17,8 +16,9 @@ export interface ILoginRequestData {
   password: string
 }
 
-export interface ITest {
-  test: string
+export interface IForgotPassword {
+  status: number,
+  message: string
 }
 
 @Injectable({
@@ -28,41 +28,41 @@ export class AccountService {
   account = ACCOUNT
   accounts = ACCOUNTS
   newAccount: IAccount = { id: 0, name: "New Account", description: "New Account", eMail: "new@email.com" }
+  forgotPasswordMail: string = ""
   
   constructor() { }
 
   public getAccounts(httpClient: HttpClient): Observable<IAccount[] | void> {
-    return httpClient.get<IAccount[]>('https://localhost:7128/api/Accounts')
+    return httpClient.get<IAccount[]>('https://localhost:5001/api/Accounts')
     // .pipe((error) => { console.error(this.handleHttpError(error)) }); // Verwende die ausgelagerte handleError
   }
 
   public getAccount(httpClient: HttpClient, id: number): Observable<IAccount> {
-    return httpClient.get<IAccount>('https://localhost:7128/api/Accounts/' + id)
+    return httpClient.get<IAccount>('https://localhost:5001/api/Accounts/' + id)
     // .pipe((error) => { console.error(this.handleHttpError(error)) }); // Verwende die ausgelagerte handleError
   }
 
   public getAccountInfo(httpClient: HttpClient, id: number): Observable<IAccountInfoAccount> {
-    return httpClient.get<IAccountInfoAccount>('https://localhost:7128/api/Accounts/Info/' + id)
+    return httpClient.get<IAccountInfoAccount>('https://localhost:5001/api/Accounts/Info/' + id)
     // .pipe((error) => { console.error(this.handleHttpError(error)) }); // Verwende die ausgelagerte handleError
   }
 
   public addAccount(httpClient: HttpClient): Observable<IAccount> {
-    return httpClient.post<IAccount>('https://localhost:7128/api/Accounts', this.newAccount)
+    return httpClient.post<IAccount>('https://localhost:5001/api/Accounts', this.newAccount)
     // .pipe((error) => { console.error(this.handleHttpError(error)) }); // Verwende die ausgelagerte handleError  
   }
 
   public editAccount(httpClient: HttpClient, id: number, editedAccount: IAccount): Observable<IAccount> {
-    return httpClient.put<IAccount>('https://localhost:7128/api/Accounts/' + id, editedAccount)
+    return httpClient.put<IAccount>('https://localhost:5001/api/Accounts/' + id, editedAccount)
     // .pipe((error) => { console.error(this.handleHttpError(error)) }); // Verwende die ausgelagerte handleError
   }
 
   public deleteAccount(httpClient: HttpClient, id: number): Observable<IAccount> {
-    return httpClient.delete<IAccount>('https://localhost:7128/api/Accounts/' + id)
+    return httpClient.delete<IAccount>('https://localhost:5001/api/Accounts/' + id)
       // .pipe(catchError(this.handleError())); // Verwende die ausgelagerte handleError
   }
 
   public login(httpClient: HttpClient, email: string, pw: string): Observable<IAccount> {
-    // const cryptedPW = CryptoJS.SHA256(pw).toString(CryptoJS.enc.Hex)      
     const loginRequestData: ILoginRequestData = {
       mail: email,
       password: pw
@@ -70,8 +70,14 @@ export class AccountService {
 
     console.log(JSON.stringify(loginRequestData));
     
-    return httpClient.post<IAccount>('https://localhost:7128/api/Accounts/Login', loginRequestData);
-      // .pipe(catchError(this.handleError())); // Verwende die ausgelagerte handleError
+    return httpClient.post<IAccount>('https://localhost:5001/api/Accounts/Login', loginRequestData)
+  }
+
+  public forgotPassword(httpClient: HttpClient, email: string): Observable<IForgotPassword> {
+    let headers = new HttpHeaders({ 
+      'accept': 'text/plain'
+    })
+    return httpClient.get<IForgotPassword>('https://localhost:5001/api/Accounts/Reset-Password/' + email, { headers })
   }
 
 
