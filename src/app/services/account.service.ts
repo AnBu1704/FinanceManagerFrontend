@@ -16,7 +16,7 @@ export interface ILoginRequestData {
   password: string
 }
 
-export interface IForgotPassword {
+export interface IResetPassword {
   status: number,
   message: string
 }
@@ -28,7 +28,7 @@ export class AccountService {
   account = ACCOUNT
   accounts = ACCOUNTS
   newAccount: IAccount = { id: 0, name: "New Account", description: "New Account", eMail: "new@email.com" }
-  forgotPasswordMail: string = ""
+  resetPasswordMail: string = ""
   
   constructor() { }
 
@@ -73,11 +73,11 @@ export class AccountService {
     return httpClient.post<IAccount>('https://localhost:5001/api/Accounts/Login', loginRequestData)
   }
 
-  public forgotPassword(httpClient: HttpClient, email: string): Observable<IForgotPassword> {
+  public resetPassword(httpClient: HttpClient, email: string): Observable<IResetPassword> {
     let headers = new HttpHeaders({ 
       'accept': 'text/plain'
     })
-    return httpClient.get<IForgotPassword>('https://localhost:5001/api/Accounts/Reset-Password/' + email, { headers })
+    return httpClient.get<IResetPassword>('https://localhost:5001/api/Accounts/Reset-Password/' + email, { headers })
   }
 
 

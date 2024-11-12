@@ -13,7 +13,7 @@ import { AccountService } from '../../../services/account.service';
 import { LoginRegisterComponent } from '../../login-register/login-register.component';
 
 @Component({
-  selector: 'app-forgot-password',
+  selector: 'app-reset-password',
   standalone: true,
   imports: [
     FormsModule,
@@ -26,20 +26,20 @@ import { LoginRegisterComponent } from '../../login-register/login-register.comp
     LoginRegisterComponent
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './forgot-password.component.html',
-  styleUrl: './forgot-password.component.css'
+  templateUrl: './reset-password.component.html',
+  styleUrl: './reset-password.component.css'
 })
-export class ForgotPasswordComponent {
+export class ResetPasswordComponent {
   readonly email = new FormControl('', [Validators.required, Validators.email]);
 
   errorMessageEmail = signal('');  
   hide = signal(true);
 
-  forgotPasswordMail: string = ""
+  resetPasswordMail: string = ""
 
   forgetPasswordButtonDisabled: boolean = true
 
-  errorMessageForgotPassword: string = ''
+  errorMessageResetPassword: string = ''
 
   constructor(private httpClient: HttpClient, 
     private accountService: AccountService, 
@@ -81,15 +81,15 @@ export class ForgotPasswordComponent {
       this.loginRegisterComponent.showLoginComponent()
     }
 
-    forgotPasswordClick() {
-      this.accountService.forgotPassword(this.httpClient, this.email.value != null ? this.email.value : "").subscribe({
+    resetPasswordClick() {
+      this.accountService.resetPassword(this.httpClient, this.email.value != null ? this.email.value : "").subscribe({
         next: (response) => {
           console.log(response);
         }
         // error: (error) => {
-        //   this.errorMessageForgotPassword = 'Error while sending verification mail.'
+        //   this.errorMessageResetPassword = 'Error while sending verification mail.'
         //     this.cdr.detectChanges(); // Änderung explizit bekannt machen
-        //     console.error(new Error(this.errorMessageForgotPassword))
+        //     console.error(new Error(this.errorMessageResetPassword))
         // }
       });
     }

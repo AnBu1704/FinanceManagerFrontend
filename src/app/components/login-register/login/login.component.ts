@@ -92,12 +92,12 @@ export class LoginComponent {
     this.loginRegisterComponent.showRegisterComponent()
   }
 
-  forgotPasswordClick() {
-    this.accountService.forgotPasswordMail = this.email.value == null ? "" : this.email.value
-    console.log(this.accountService.forgotPasswordMail);
+  resetPasswordClick() {
+    this.accountService.resetPasswordMail = this.email.value == null ? "" : this.email.value
+    console.log(this.accountService.resetPasswordMail);
     
 
-    this.loginRegisterComponent.showForgotPasswordComponent()
+    this.loginRegisterComponent.showResetPasswordComponent()
   }
 
   loginClick() {
