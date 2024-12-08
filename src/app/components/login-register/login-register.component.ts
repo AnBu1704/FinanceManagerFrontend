@@ -47,8 +47,9 @@ export class LoginRegisterComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     // this.router.navigate([{ outlets: { bottom: ['register'] }}], { relativeTo: this.route });
-    this.router.navigate([{ outlets: { bottom: ['login'] }}], { relativeTo: this.route });
-    // this.router.navigate([{ outlets: { bottom: ['reset-password'] }}], { relativeTo: this.route });
+    // this.router.navigate([{ outlets: { bottom: ['login'] }}], { relativeTo: this.route });
+    // this.router.navigate([{ outlets: { bottom: ['forgot-password'] }}], { relativeTo: this.route });
+    this.router.navigate([{ outlets: { bottom: ['verify-code'] }}], { relativeTo: this.route });
   }
 
   updateErrorMessage() {
@@ -75,7 +76,11 @@ export class LoginRegisterComponent implements AfterViewInit {
   }
 
   public showResetPasswordComponent() {
-    this.router.navigate([{ outlets: { bottom: ['reset-password', this.accountService.resetPasswordMail] }}], { relativeTo: this.route })
+    this.router.navigate([{ outlets: { bottom: ['forgot-password', this.accountService.resetPasswordMail] }}], { relativeTo: this.route })
+  }
+
+  public showVerifyCodeComponent() {
+    this.router.navigate([{ outlets: { bottom: ['verify-code', this.accountService.resetPasswordMail] }}], { relativeTo: this.route })
   }
   
   loginRegisterSelected(): boolean {

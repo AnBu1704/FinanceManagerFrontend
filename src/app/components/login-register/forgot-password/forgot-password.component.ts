@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http'
+import { NgIf } from '@angular/common';
 import { FormBuilder, FormGroup, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon';
@@ -9,14 +10,15 @@ import { merge } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterModule, Routes, RouterOutlet, Router, ActivatedRoute } from '@angular/router'
 
-import { AccountService } from '../../../services/account.service';
+import { AccountService, IResetPassword } from '../../../services/account.service';
 import { LoginRegisterComponent } from '../../login-register/login-register.component';
 
 @Component({
-  selector: 'app-reset-password',
+  selector: 'app-forgot-password',
   standalone: true,
   imports: [
     FormsModule,
+    NgIf,
     MatButtonModule,
     MatInputModule,
     MatIconModule,
@@ -26,8 +28,8 @@ import { LoginRegisterComponent } from '../../login-register/login-register.comp
     LoginRegisterComponent
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './reset-password.component.html',
-  styleUrl: './reset-password.component.css'
+  templateUrl: './forgot-password.component.html',
+  styleUrl: './forgot-password.component.css'
 })
 export class ResetPasswordComponent {
   readonly email = new FormControl('', [Validators.required, Validators.email]);
@@ -40,6 +42,8 @@ export class ResetPasswordComponent {
   forgetPasswordButtonDisabled: boolean = true
 
   errorMessageResetPassword: string = ''
+
+  gotEmailVisible: boolean = false
 
   constructor(private httpClient: HttpClient, 
     private accountService: AccountService, 
@@ -84,13 +88,34 @@ export class ResetPasswordComponent {
     resetPasswordClick() {
       this.accountService.resetPassword(this.httpClient, this.email.value != null ? this.email.value : "").subscribe({
         next: (response) => {
-          console.log(response);
+          this.gotEmailVisible = true 
+          this.cdr.detectChanges();         
+        },
+        error: (error) => {
+          console.log(error);
+          if (error.status == 404) {
+            this.gotEmailVisible = true
+            this.cdr.detectChanges();   
+          }
+          else if (error.status == 500) {
+            this.errorMessageResetPassword = 'Error while sending verification mail.'
+            this.gotEmailVisible = false
+            this.cdr.detectChanges();
+          }
+          else {
+            this.errorMessageResetPassword = 'Error while sending verification mail.'
+            this.cdr.detectChanges();
+            this.gotEmailVisible = false
+          }
+          
+          // this.errorMessageResetPassword = 'Error while sending verification mail.'
+          //   this.cdr.detectChanges(); // Änderung explizit bekannt machen
+          //   console.error(new Error(this.errorMessageResetPassword))
         }
-        // error: (error) => {
-        //   this.errorMessageResetPassword = 'Error while sending verification mail.'
-        //     this.cdr.detectChanges(); // Änderung explizit bekannt machen
-        //     console.error(new Error(this.errorMessageResetPassword))
-        // }
       });
+    }
+
+    gotEmailClick() {
+      this.loginRegisterComponent.showVerifyCodeComponent()
     }
 }

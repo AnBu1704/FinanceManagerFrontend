@@ -77,7 +77,7 @@ export class AccountService {
     let headers = new HttpHeaders({ 
       'accept': 'text/plain'
     })
-    return httpClient.get<IResetPassword>('https://localhost:5001/api/Accounts/Reset-Password/' + email, { headers })
+    return httpClient.get<IResetPassword>('https://localhost:5001/api/Accounts/Forgot-Password/' + email, { headers })
   }
 
 
